@@ -19,7 +19,7 @@ resource "random_string" "string" {
 }
 
 module "resource_names" {
-  source = "git::https://github.com/nexient-llc/tf-module-resource_name.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-launch-module_library-resource_name.git?ref=1.0.0"
 
   for_each = var.resource_names_map
 
@@ -41,7 +41,7 @@ module "cloudwatch_metric_stream" {
 }
 
 module "firehose_delivery_stream" {
-  source = "git::https://github.com/nexient-llc/tf-aws-module-firehose_delivery_stream?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-firehose_delivery_stream?ref=1.0.0"
 
   delivery_stream_name   = "${var.naming_prefix}-${random_string.string.result}"
   http_endpoint_name     = "Test Endpoint"
@@ -52,7 +52,7 @@ module "firehose_delivery_stream" {
 }
 
 module "s3_bucket" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-s3_bucket?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-s3_bucket?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
@@ -64,14 +64,14 @@ module "s3_bucket" {
 }
 
 module "cloudwatch_log_group" {
-  source = "git::https://github.com/nexient-llc/tf-aws-module-cloudwatch_log_group.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_primitive-cloudwatch_log_group.git?ref=1.0.0"
 
   name = module.resource_names["log_group"].standard
   tags = merge(local.tags, { resource_name = module.resource_names["log_group"].standard })
 }
 
 module "producer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
@@ -105,7 +105,7 @@ data "aws_iam_policy_document" "producer_policy" {
 }
 
 module "consumer_role" {
-  source = "git::https://github.com/nexient-llc/tf-aws-wrapper_module-iam_assumable_role.git?ref=0.1.0"
+  source = "git::https://github.com/launchbynttdata/tf-aws-module_collection-iam_assumable_role.git?ref=1.0.0"
 
   naming_prefix      = var.naming_prefix
   environment        = var.environment
