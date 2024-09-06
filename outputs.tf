@@ -15,6 +15,12 @@ output "arn" {
   value       = aws_cloudwatch_metric_stream.cloudwatch_metric_stream.arn
 }
 
+
+output "name" {
+  description = "Name of the metric stream."
+  value       = aws_cloudwatch_metric_stream.cloudwatch_metric_stream.name
+}
+
 output "creation_date" {
   description = "Date and time in RFC3339 format that the metric stream was created."
   value       = aws_cloudwatch_metric_stream.cloudwatch_metric_stream.creation_date
