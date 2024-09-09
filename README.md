@@ -108,14 +108,14 @@ If `make check` target is successful, developer is good to commit the code to pr
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0, <= 1.5.5 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.57.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.22.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.65.0 |
 
 ## Modules
 
@@ -143,6 +143,7 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | ARN of the metric stream. |
+| <a name="output_name"></a> [name](#output\_name) | Name of the metric stream. |
 | <a name="output_creation_date"></a> [creation\_date](#output\_creation\_date) | Date and time in RFC3339 format that the metric stream was created. |
 | <a name="output_last_update_date"></a> [last\_update\_date](#output\_last\_update\_date) | Date and time in RFC3339 format that the metric stream was updated. |
 | <a name="output_state"></a> [state](#output\_state) | State of the metric stream. Possible values are running and stopped. |
