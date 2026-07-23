@@ -19,7 +19,7 @@ var standardTags = map[string]string{
 	"provisioner": "Terraform",
 }
 
-func TestCloudWatchComplete(t *testing.T, ctx types.TestContext) {
+func TestComposableCloudWatchComplete(t *testing.T, ctx types.TestContext) {
 	streamName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
 	fmt.Println(streamName)
 

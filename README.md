@@ -103,19 +103,13 @@ If `make check` target is successful, developer is good to commit the code to pr
 - runs `conftests`. `conftests` make sure `policy` checks are successful.
 - runs `terratest`. This is integration test suit.
 - runs `opa` tests
-<!-- BEGINNING OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
-
-## Providers
-
-| Name | Version |
-|------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | 5.65.0 |
 
 ## Modules
 
@@ -131,10 +125,10 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_metrics_namespaces"></a> [metrics\_namespaces](#input\_metrics\_namespaces) | A list of metrics namespaces to pull from CloudWatch into Sumo Logic. An empty list (default) exports all metrics. | `list(string)` | `[]` | no |
+| <a name="input_delivery_stream_arn"></a> [delivery\_stream\_arn](#input\_delivery\_stream\_arn) | ARN of the Delivery Stream used as a target for Metrics. | `string` | n/a | yes |
 | <a name="input_metric_stream_name"></a> [metric\_stream\_name](#input\_metric\_stream\_name) | Name of the Metric Stream. | `string` | n/a | yes |
 | <a name="input_metrics_format"></a> [metrics\_format](#input\_metrics\_format) | Format of metrics pulled from CloudWatch. Valid options are opentelemetry0.7 (default) and json. | `string` | `"opentelemetry0.7"` | no |
-| <a name="input_delivery_stream_arn"></a> [delivery\_stream\_arn](#input\_delivery\_stream\_arn) | ARN of the Delivery Stream used as a target for Metrics. | `string` | n/a | yes |
+| <a name="input_metrics_namespaces"></a> [metrics\_namespaces](#input\_metrics\_namespaces) | A list of metrics namespaces to pull from CloudWatch into Sumo Logic. An empty list (default) exports all metrics. | `list(string)` | `[]` | no |
 | <a name="input_producer_role_arn"></a> [producer\_role\_arn](#input\_producer\_role\_arn) | Role ARN to attach to the Metric Stream. This role should have permissions to PutRecord and PutRecordBatch on the delivery stream. | `string` | `null` | no |
 | <a name="input_tags"></a> [tags](#input\_tags) | A map of tags to add to the resources created by the module. | `map(string)` | `{}` | no |
 
@@ -143,9 +137,9 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_arn"></a> [arn](#output\_arn) | ARN of the metric stream. |
-| <a name="output_name"></a> [name](#output\_name) | Name of the metric stream. |
 | <a name="output_creation_date"></a> [creation\_date](#output\_creation\_date) | Date and time in RFC3339 format that the metric stream was created. |
 | <a name="output_last_update_date"></a> [last\_update\_date](#output\_last\_update\_date) | Date and time in RFC3339 format that the metric stream was updated. |
+| <a name="output_name"></a> [name](#output\_name) | Name of the metric stream. |
 | <a name="output_state"></a> [state](#output\_state) | State of the metric stream. Possible values are running and stopped. |
 | <a name="output_tags_all"></a> [tags\_all](#output\_tags\_all) | A map of tags assigned to the resource, including those inherited from the provider default\_tags configuration block. |
-<!-- END OF PRE-COMMIT-TERRAFORM DOCS HOOK -->
+<!-- END_TF_DOCS -->
