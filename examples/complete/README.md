@@ -39,7 +39,7 @@ No outputs.
 
 | Name | Version |
 |------|---------|
-| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | ~> 1.0 |
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.5.0, <= 1.10.4 |
 | <a name="requirement_aws"></a> [aws](#requirement\_aws) | ~> 5.0 |
 
 ## Modules
@@ -51,7 +51,7 @@ No outputs.
 | <a name="module_consumer_role"></a> [consumer\_role](#module\_consumer\_role) | terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws | ~> 1.0 |
 | <a name="module_firehose_delivery_stream"></a> [firehose\_delivery\_stream](#module\_firehose\_delivery\_stream) | terraform.registry.launch.nttdata.com/module_primitive/firehose_delivery_stream/aws | ~> 1.0 |
 | <a name="module_producer_role"></a> [producer\_role](#module\_producer\_role) | terraform.registry.launch.nttdata.com/module_collection/iam_assumable_role/aws | ~> 1.0.0 |
-| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | terraform.registry.launch.nttdata.com/module_library/resource_name/launch | ~> 1.0 |
+| <a name="module_resource_names"></a> [resource\_names](#module\_resource\_names) | terraform.registry.launch.nttdata.com/module_library/resource_name/launch | ~> 2.4 |
 | <a name="module_s3_bucket"></a> [s3\_bucket](#module\_s3\_bucket) | terraform.registry.launch.nttdata.com/module_collection/s3_bucket/aws | ~> 1.0 |
 
 ## Resources
