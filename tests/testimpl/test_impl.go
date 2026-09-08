@@ -19,8 +19,8 @@ var standardTags = map[string]string{
 	"provisioner": "Terraform",
 }
 
-func TestCloudWatchComplete(t *testing.T, ctx types.TestContext) {
-	streamName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+func TestComposableCloudWatchComplete(t *testing.T, ctx types.TestContext) {
+	streamName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "name")
 	fmt.Println(streamName)
 
 	t.Run("TestARNPatternMatches", func(t *testing.T) {
@@ -39,14 +39,14 @@ func TestCloudWatchComplete(t *testing.T, ctx types.TestContext) {
 func checkARNFormat(t *testing.T, ctx types.TestContext) {
 	expectedPatternARN := "^arn:aws:cloudwatch:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$"
 
-	actualARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")
+	actualARN := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "arn")
 	assert.NotEmpty(t, actualARN, "ARN is empty")
 	assert.Regexp(t, expectedPatternARN, actualARN, "ARN does not match expected pattern")
 }
 
 func checkTagsMatch(t *testing.T, ctx types.TestContext) {
-	expectedTags := terraform.OutputMap(t, ctx.TerratestTerraformOptions(), "tags_all")
-	actualARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")
+	expectedTags := terraform.OutputMapContext(t, context.Background(), ctx.TerratestTerraformOptions(), "tags_all")
+	actualARN := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "arn")
 	client := GetCloudWatchClient(t)
 
 	input := &cloudwatch.ListTagsForResourceInput{
@@ -69,7 +69,7 @@ func checkTagsMatch(t *testing.T, ctx types.TestContext) {
 
 func checkMetricStream(t *testing.T, ctx types.TestContext) {
 	client := GetCloudWatchClient(t)
-	expectedName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+	expectedName := terraform.OutputContext(t, context.Background(), ctx.TerratestTerraformOptions(), "name")
 
 	input := &cloudwatch.GetMetricStreamInput{
 		Name: aws.String(expectedName),
