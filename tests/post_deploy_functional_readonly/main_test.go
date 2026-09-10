@@ -25,8 +25,7 @@ const (
 	infraTFVarFileNameDefault        = "test.tfvars"
 )
 
-func TestSecretsManagerModule(t *testing.T) {
-
+func TestCloudWatchMetricStreamModuleReadOnly(t *testing.T) {
 	ctx := types.CreateTestContextBuilder().
 		SetTestConfig(&testimpl.ThisTFModuleConfig{}).
 		SetTestConfigFolderName(testConfigsExamplesFolderDefault).

@@ -77,17 +77,6 @@ variable "instance_env" {
   }
 }
 
-variable "instance_resource" {
-  type        = number
-  description = "Number that represents the instance of the resource."
-  default     = 0
-
-  validation {
-    condition     = var.instance_resource >= 0 && var.instance_resource <= 100
-    error_message = "Instance number should be between 1 to 100."
-  }
-}
-
 variable "resource_names_map" {
   description = "A map of key to resource_name that will be used by tf-launch-module_library-resource_name to generate resource names"
   type = map(object(
@@ -136,12 +125,6 @@ variable "environment" {
 
 variable "environment_number" {
   description = "The environment count for the respective environment. Defaults to 000. Increments in value of 1"
-  type        = number
-  default     = "000"
-}
-
-variable "resource_number" {
-  description = "The resource count for the respective resource. Defaults to 000. Increments in value of 1"
   type        = number
   default     = "000"
 }

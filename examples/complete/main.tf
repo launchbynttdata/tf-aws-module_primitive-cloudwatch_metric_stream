@@ -12,6 +12,11 @@
 
 data "aws_caller_identity" "current" {}
 
+resource "random_integer" "instance_resource" {
+  min = 1
+  max = 100
+}
+
 module "resource_names" {
   source  = "terraform.registry.launch.nttdata.com/module_library/resource_name/launch"
   version = "~> 2.4"
@@ -24,7 +29,7 @@ module "resource_names" {
   class_env               = var.class_env
   cloud_resource_type     = each.value.name
   instance_env            = var.instance_env
-  instance_resource       = var.instance_resource
+  instance_resource       = random_integer.instance_resource.result
   maximum_length          = each.value.max_length
 }
 
@@ -54,6 +59,10 @@ module "s3_bucket" {
 
   logical_product_family  = var.logical_product_family
   logical_product_service = var.logical_product_service
+  region                  = var.region
+  class_env               = var.class_env
+  instance_env            = var.instance_env
+  instance_resource       = random_integer.instance_resource.result
 
   use_default_server_side_encryption = true
 
@@ -75,7 +84,7 @@ module "producer_role" {
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
-  resource_number    = var.resource_number
+  resource_number    = random_integer.instance_resource.result
 
   resource_names_map = {
     iam_role   = var.resource_names_map["producer_role"]
@@ -83,8 +92,7 @@ module "producer_role" {
   }
 
   assume_iam_role_policies = [data.aws_iam_policy_document.producer_policy.json]
-  trusted_role_services    = local.consumer_trusted_services
-  role_sts_externalid      = local.consumer_external_id
+  trusted_role_services    = local.producer_trusted_services
 }
 
 
@@ -109,7 +117,7 @@ module "consumer_role" {
   environment        = var.environment
   environment_number = var.environment_number
   region             = var.region
-  resource_number    = var.resource_number
+  resource_number    = random_integer.instance_resource.result
 
   resource_names_map = {
     iam_role   = var.resource_names_map["consumer_role"]
