@@ -20,7 +20,7 @@ var standardTags = map[string]string{
 }
 
 func TestComposableCloudWatchComplete(t *testing.T, ctx types.TestContext) {
-	streamName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+	streamName := terraform.OutputContext(t, t.Context(), ctx.TerratestTerraformOptions(), "name")
 	fmt.Println(streamName)
 
 	t.Run("TestARNPatternMatches", func(t *testing.T) {
@@ -39,20 +39,20 @@ func TestComposableCloudWatchComplete(t *testing.T, ctx types.TestContext) {
 func checkARNFormat(t *testing.T, ctx types.TestContext) {
 	expectedPatternARN := "^arn:aws:cloudwatch:[a-z0-9-]+:[0-9]{12}:[a-z0-9-]+/.+$"
 
-	actualARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")
+	actualARN := terraform.OutputContext(t, t.Context(), ctx.TerratestTerraformOptions(), "arn")
 	assert.NotEmpty(t, actualARN, "ARN is empty")
 	assert.Regexp(t, expectedPatternARN, actualARN, "ARN does not match expected pattern")
 }
 
 func checkTagsMatch(t *testing.T, ctx types.TestContext) {
-	expectedTags := terraform.OutputMap(t, ctx.TerratestTerraformOptions(), "tags_all")
-	actualARN := terraform.Output(t, ctx.TerratestTerraformOptions(), "arn")
-	client := GetCloudWatchClient(t)
+	expectedTags := terraform.OutputMapContext(t, t.Context(), ctx.TerratestTerraformOptions(), "tags_all")
+	actualARN := terraform.OutputContext(t, t.Context(), ctx.TerratestTerraformOptions(), "arn")
+	client := GetCloudWatchClient(t, t.Context())
 
 	input := &cloudwatch.ListTagsForResourceInput{
 		ResourceARN: aws.String(actualARN),
 	}
-	result, err := client.ListTagsForResource(context.TODO(), input)
+	result, err := client.ListTagsForResource(t.Context(), input)
 	assert.NoError(t, err, "Failed to retrieve tags from AWS")
 
 	actualTags := map[string]string{}
@@ -68,27 +68,26 @@ func checkTagsMatch(t *testing.T, ctx types.TestContext) {
 }
 
 func checkMetricStream(t *testing.T, ctx types.TestContext) {
-	client := GetCloudWatchClient(t)
-	expectedName := terraform.Output(t, ctx.TerratestTerraformOptions(), "name")
+	client := GetCloudWatchClient(t, t.Context())
+	expectedName := terraform.OutputContext(t, t.Context(), ctx.TerratestTerraformOptions(), "name")
 
 	input := &cloudwatch.GetMetricStreamInput{
 		Name: aws.String(expectedName),
 	}
 
-	result, err := client.GetMetricStream(context.TODO(), input)
+	result, err := client.GetMetricStream(t.Context(), input)
 	assert.NoError(t, err, "Failed to retrieve metric stream from AWS")
 
 	currentName := result.Name
 	assert.Equal(t, expectedName, *currentName, "Metric stream name doesn't match")
 }
 
-func GetAWSConfig(t *testing.T) (cfg aws.Config) {
-	cfg, err := config.LoadDefaultConfig(context.TODO())
+func GetAWSConfig(t *testing.T, ctx context.Context) aws.Config {
+	cfg, err := config.LoadDefaultConfig(ctx)
 	require.NoErrorf(t, err, "unable to load SDK config, %v", err)
 	return cfg
 }
 
-func GetCloudWatchClient(t *testing.T) *cloudwatch.Client {
-	cloudwatchClient := cloudwatch.NewFromConfig(GetAWSConfig(t))
-	return cloudwatchClient
+func GetCloudWatchClient(t *testing.T, ctx context.Context) *cloudwatch.Client {
+	return cloudwatch.NewFromConfig(GetAWSConfig(t, ctx))
 }
